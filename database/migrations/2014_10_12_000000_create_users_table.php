@@ -7,26 +7,28 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * マイグレーションを実行します。
      */
     public function up(): void
     {
+        // 'users' テーブルを作成
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
+            $table->id();  // 主キー
+            $table->string('name');  // 名前
+            $table->string('email')->unique();  // メールアドレス（一意）
+            $table->timestamp('email_verified_at')->nullable();  // メールの確認日時（null可）
+            $table->string('password');  // パスワード
+            $table->rememberToken();  // "記憶する"トークン（自動ログイン機能用）
+            $table->timestamps();  // 作成日時・更新日時
         });
     }
 
     /**
-     * Reverse the migrations.
+     * マイグレーションを元に戻します。
      */
     public function down(): void
     {
+        // 'users' テーブルを削除
         Schema::dropIfExists('users');
     }
 };

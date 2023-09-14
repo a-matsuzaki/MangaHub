@@ -42,6 +42,7 @@
 | タイトル | string | 漫画のタイトル |
 | 著者 | string | 漫画の著者 |
 | 出版社 | string | 出版社の名前 |
+| メモ（備考） | string | メモ |
 | 作成日時 | timestamp | データの作成日時 |
 | 更新日時 | timestamp | データの最後の更新日時 |
 
@@ -52,8 +53,13 @@
 | 巻数ID | integer (auto-increment) | 一意の識別子、主キー |
 | シリーズID | integer | 漫画シリーズテーブルとのリレーション |
 | ユーザーID | integer | ユーザーテーブルとのリレーション |
-| 巻数 | integer | 何巻かの情報 |
-| 所有カラム | boolean | 所有しているか否か(true/false) |
+| タイプ | boolean | 通常版(true) or 特別版(false) |
+| 巻数 | integer | 何巻かの情報（特別版は一律9999などにする） |
+| 所有ステータス | boolean | 所有(true) or 未所有(false) |
+| 読書ステータス | boolean | 既読(true) or 未読(false) |
+| 購入意向 | boolean | 買いたい(true) or 買いたくない(false) |
+| 読書意向 | boolean | 読みたい(true) or 読みたくない(false) |
+| メモ（備考） | string | メモ |
 | 作成日時 | timestamp | データの作成日時 |
 | 更新日時 | timestamp | データの最後の更新日時 |
 
