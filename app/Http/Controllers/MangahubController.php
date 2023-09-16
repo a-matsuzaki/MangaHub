@@ -22,7 +22,7 @@ class MangahubController extends Controller
         }
 
         // 'mangahub.index'ビューを表示し、シリーズデータをビューに渡す
-        return view('mangahub.index', ['series' => $allSeries]);
+        return view('mangahub.index', ['allSeries' => $allSeries]);
     }
 
     /**
