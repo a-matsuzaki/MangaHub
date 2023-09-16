@@ -33,6 +33,6 @@ class MangaSeries extends Model
      */
     public function mangaVolumes()
     {
-        return $this->hasMany(MangaVolume::class);
+        return $this->hasMany(MangaVolume::class, 'series_id');
     }
 }
