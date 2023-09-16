@@ -1,26 +1,26 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\MangahubController;
 use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| Web Routes（ウェブルート）
 |--------------------------------------------------------------------------
 |
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
+| アプリケーションのウェブルートをここで登録します。これらのルートは
+| RouteServiceProviderによって読み込まれ、すべてのルートは
+| "web"ミドルウェアグループに割り当てられます。素晴らしいものを作成しましょう！
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// 'mangahub'というURLプレフィックスの下でのルートをグループ化
+// このグループの全てのルートは、ユーザーがログインしていることを要求（authミドルウェア）
+Route::middleware('auth')->prefix('mangahub')->group(function () {
+    // '/mangahub'のURLで、MangahubControllerのindexメソッドを呼び出し
+    Route::get('/', [MangahubController::class, 'index'])->name('mangahub');
 });
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -28,4 +28,5 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// 認証関連のルートの読み込み
 require __DIR__.'/auth.php';

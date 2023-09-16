@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+// メールアドレスの確認が必要なユーザーを示すインターフェース
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 // Eloquentのファクトリー機能: テストデータの生成やデータベースのシード時に使用
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 // 認証用の基本的なUserクラス: 認証に必要な基本的なプロパティやメソッドを提供
