@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
 // 'mangahub'というURLプレフィックスの下でのルートをグループ化
 // このグループの全てのルートは、ユーザーがログインしていることを要求（authミドルウェア）
 Route::middleware('auth')->prefix('mangahub')->group(function () {
