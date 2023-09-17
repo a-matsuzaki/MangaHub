@@ -11,7 +11,7 @@ class MangahubController extends Controller
     public function index()
     {
         // データベースから全ての漫画シリーズとそれに関連する漫画ボリュームを取得
-        $allSeries = MangaSeries::with('mangaVolumes')->get();
+        $allSeries = MangaSeries::with('mangaVolumes')->paginate(3);
 
         // 各シリーズに対して処理を行う
         foreach ($allSeries as $currentSeries) {

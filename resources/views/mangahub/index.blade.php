@@ -45,6 +45,9 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+
+                                    {{ $allSeries->links() }}
+
                                 </div>
                             </div>
                         </div>
