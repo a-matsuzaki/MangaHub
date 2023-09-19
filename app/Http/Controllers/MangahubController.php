@@ -10,72 +10,106 @@ class MangahubController extends Controller
 {
     public function index()
     {
-        // データベースから全ての漫画シリーズとそれに関連する漫画ボリュームを取得
+        // 全ての漫画シリーズを3つずつページングで取得する
         $allSeries = MangaSeries::with('mangaVolumes')->paginate(3);
 
-        // 各シリーズに対して処理を行う
+        // 各シリーズの巻数表示をセット
         foreach ($allSeries as $currentSeries) {
-            // 所有している巻の表示をセット
             $this->setVolumeDisplay($currentSeries, true);
-            // 所有していない巻の表示をセット
             $this->setVolumeDisplay($currentSeries, false);
         }
 
-        // 'mangahub.index'ビューを表示し、シリーズデータをビューに渡す
+        // シリーズ一覧ビューを表示
         return view('mangahub.index', ['allSeries' => $allSeries]);
     }
 
+    public function detail($id)
+    {
+        // 指定されたIDの漫画シリーズを取得
+        $seriesDetail = MangaSeries::with('mangaVolumes')->findOrFail($id);
+
+        // 該当シリーズの巻数表示をセット
+        $this->setVolumeDisplay($seriesDetail, true);
+        $this->setVolumeDisplay($seriesDetail, false);
+
+        // シリーズ詳細ビューを表示
+        return view('mangahub.detail', ['seriesDetail' => $seriesDetail]);
+    }
+
     /**
-     * シリーズに対して所有ステータスに基づいてボリュームの表示をセットする
+     * 指定されたシリーズの巻数表示をセット
      *
-     * @param MangaSeries $currentSeries
+     * @param MangaSeries $currentSeries セットするシリーズ
      * @param bool $isOwned 所有しているかどうか
      */
     private function setVolumeDisplay($currentSeries, $isOwned)
     {
-        // 所有ステータスに基づいてボリュームを取得
+        // 所有ステータスに基づいて巻数を取得
         $volumes = $currentSeries->mangaVolumes->where('is_owned', $isOwned)->pluck('volume')->sort()->values();
 
-        // 表示属性をセット
+        // 表示をセットする属性名を決定
         $displayAttribute = $isOwned ? 'owned_volumes_display' : 'not_owned_volumes_display';
-        $currentSeries->$displayAttribute = $this->getVolumeRanges($volumes);
+        $currentSeries->$displayAttribute = $this->getVolumeRanges($volumes, $isOwned);
     }
 
     /**
-     * 与えられたボリュームのコレクションを範囲の文字列表現に変換する
+     * 指定された巻数から表示用の文字列を生成
      *
-     * @param Collection $volumes 巻数のコレクション
-     * @return string 連続する巻数の範囲を表す文字列
+     * @param Collection $volumes 巻数のリスト
+     * @param bool $isOwned 所有しているかどうか
+     * @return string 表示用の文字列
      */
-    private function getVolumeRanges(Collection $volumes): string
+    private function getVolumeRanges(Collection $volumes, bool $isOwned): string
     {
-        // 与えられた巻数が空の場合は空の文字列を返す
         if ($volumes->isEmpty()) {
             return '';
         }
 
-        // 範囲を保存する配列を初期化
-        $ranges = [];
+        if ($isOwned) {
+            return $this->convertToRanges($volumes);
+        } else {
+            return $this->convertToIndividualVolumes($volumes);
+        }
+    }
 
-        // 現在の範囲の開始と終了を初期化
+    /**
+     * 連続する巻数を範囲で表示（例: 1-3）
+     *
+     * @param Collection $volumes 巻数のリスト
+     * @return string 範囲で表示された文字列
+     */
+    private function convertToRanges(Collection $volumes): string
+    {
+        if ($volumes->isEmpty()) {
+            return '';
+        }
+
+        $ranges = [];
         $start = $end = $volumes[0];
 
-        // 各巻数に対して
         for ($i = 1; $i < $volumes->count(); $i++) {
-            // 次の巻が現在の終端と連続していれば終端を更新
             if ($volumes[$i] - $end == 1) {
                 $end = $volumes[$i];
             } else {
-                // 連続していない場合は、現在の範囲を保存し、新しい範囲を開始
-                $ranges[] = ($start == $end) ? $start : "$start-$end";
+                $ranges[] = ($start == $end) ? "{$start}巻" : "{$start}〜{$end}巻";
                 $start = $end = $volumes[$i];
             }
         }
 
-        // 最後の範囲を保存
-        $ranges[] = ($start == $end) ? $start : "$start-$end";
+        $ranges[] = ($start == $end) ? "{$start}巻" : "{$start}〜{$end}巻";
+        return implode('<br />', $ranges);
+    }
 
-        // 範囲の配列をカンマ区切りの文字列として結合して返す
-        return implode(', ', $ranges);
+    /**
+     * 各巻数を「巻」として表示（例: 1巻、2巻）
+     *
+     * @param Collection $volumes 巻数のリスト
+     * @return string 巻ごとに表示された文字列
+     */
+    private function convertToIndividualVolumes(Collection $volumes): string
+    {
+        return $volumes->map(function ($volume) {
+            return $volume . '巻';
+        })->implode('<br />');
     }
 }
