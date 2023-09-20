@@ -34,6 +34,18 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td class="grid grid-cols-12 px-6 py-4">
+                                                        <span class="col-span-3 text-sm font-medium text-gray-800 dark:text-gray-200">所有巻数</span>
+                                                        <span class="col-span-9 text-sm text-gray-800 dark:text-gray-200">{!! $seriesDetail->owned_volumes_display !!}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="grid grid-cols-12 px-6 py-4">
+                                                        <span class="col-span-3 text-sm font-medium text-gray-800 dark:text-gray-200">持っていない巻数</span>
+                                                        <span class="col-span-9 text-sm text-red-500 dark:text-gray-200">{!! $seriesDetail->not_owned_volumes_display !!}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td class="grid grid-cols-12 px-6 py-4 items-center">
                                                         <span class="col-span-3 text-sm font-medium text-gray-800 dark:text-gray-200">著者</span>
                                                         <span class="col-span-9 text-sm text-gray-800 dark:text-gray-200">
