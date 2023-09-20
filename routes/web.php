@@ -29,6 +29,7 @@ Route::middleware('auth')->prefix('mangahub')->group(function () {
     // '/mangahub'のURLで、MangahubControllerのindexメソッドを呼び出し
     Route::get('/', [MangahubController::class, 'index'])->name('mangahub');
     Route::get('/detail/{id}', [MangahubController::class, 'detail'])->name('mangahub.detail');
+    Route::get('/edit/{id}', [MangahubController::class, 'edit'])->name('mangahub.edit');
 });
 
 Route::middleware('auth')->group(function () {

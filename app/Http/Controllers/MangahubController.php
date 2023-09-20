@@ -36,6 +36,21 @@ class MangahubController extends Controller
         return view('mangahub.detail', ['seriesDetail' => $seriesDetail]);
     }
 
+    public function edit($id)
+    {
+        // 指定されたIDの漫画シリーズを取得
+        $seriesDetail = MangaSeries::with('mangaVolumes')->findOrFail($id);
+
+        // 該当シリーズの巻数表示をセット
+        $this->setVolumeDisplay($seriesDetail, true);
+        $this->setVolumeDisplay($seriesDetail, false);
+
+        // シリーズ詳細ビューを表示
+        return view('mangahub.edit', ['seriesDetail' => $seriesDetail]);
+    }
+
+
+
     /**
      * 指定されたシリーズの巻数表示をセット
      *
