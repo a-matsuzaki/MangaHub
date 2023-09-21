@@ -58,7 +58,7 @@
                     </div>
                     <div class="py-4 flex justify-center space-x-4">
                         <button onclick="history.back()" type="button" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-gray-500 text-white hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all text-sm dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-offset-gray-800">戻る</button>
-                        <button onclick="location.href='/mangahub/edit/{{ $seriesDetail->id }}'" type="button" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">編集</button>
+                        <button onclick="location.href='/mangahub/editSeries/{{ $seriesDetail->id }}'" type="button" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">編集</button>
                     </div>
                 </div>
             </div>
@@ -89,32 +89,30 @@
                                             <tr class="odd:bg-white even:bg-gray-100 dark:odd:bg-slate-900 dark:even:bg-slate-800">
                                                 <td class="w-2/12 px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">{{ $seriesDetail->title }}第{{ $volume->volume }}巻</td>
                                                 <td class="w-1/12 px-6 py-4 whitespace-nowrap text-center text-sm text-gray-800 dark:text-gray-200">
-                                                    @if($volume->is_owned == 1)
+                                                    @if($volume->is_owned === 1)
                                                     <i class="fa-solid fa-square-check"></i>
                                                     @else
                                                     <i class="fa-regular fa-square"></i>
                                                     @endif
                                                 </td>
                                                 <td class="w-1/12 px-6 py-4 whitespace-nowrap text-center text-sm text-gray-800 dark:text-gray-200">
-                                                    @if($volume->is_read == 1)
-                                                    <i class="fa-solid fa-square-check"></i>
-                                                    @else
-                                                    <i class="fa-regular fa-square"></i>
+                                                    @if($volume->is_read === 1)
+                                                    <i class="fas fa-star"></i>
                                                     @endif
                                                 </td>
                                                 <td class="w-1/12 px-6 py-4 whitespace-nowrap text-center text-sm font-medium text-gray-800 dark:text-gray-200">
-                                                    @if($volume->wants_to_buy == 1)
+                                                    @if($volume->wants_to_buy === 1)
                                                     <i class="fas fa-star"></i>
                                                     @endif
                                                 </td>
                                                 <td class="w-1/12 px-6 py-4 whitespace-nowrap text-center text-sm text-gray-800 dark:text-gray-200">
-                                                    @if($volume->wants_to_read == 1)
+                                                    @if($volume->wants_to_read === 1)
                                                     <i class="fas fa-star"></i>
                                                     @endif
                                                 </td>
                                                 <td class="w-2/12 px-6 py-4 text-sm text-gray-800 dark:text-gray-200">{{ $volume->note }}</td>
                                                 <td class="w-1/12 py-4 whitespace-nowrap text-center text-sm font-medium">
-                                                    <button type="button" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">編集</button>
+                                                    <button type="button" onclick="location.href='/mangahub/editVolume/{{ $volume->id }}'" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">編集</button>
                                                 </td>
                                             </tr>
                                             @endforeach

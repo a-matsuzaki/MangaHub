@@ -29,7 +29,11 @@ Route::middleware('auth')->prefix('mangahub')->group(function () {
     // '/mangahub'のURLで、MangahubControllerのindexメソッドを呼び出し
     Route::get('/', [MangahubController::class, 'index'])->name('mangahub');
     Route::get('/detail/{id}', [MangahubController::class, 'detail'])->name('mangahub.detail');
-    Route::get('/edit/{id}', [MangahubController::class, 'edit'])->name('mangahub.edit');
+    Route::get('/editSeries/{id}', [MangahubController::class, 'editSeries'])->name('mangahub.editSeries');
+    Route::get('/editVolume/{id}', [MangahubController::class, 'editVolume'])->name('mangahub.editVolume');
+
+    Route::patch('/updateSeries', [MangahubController::class, 'updateSeries'])->name('mangahub.updateSeries');
+    Route::patch('/updateVolume', [MangahubController::class, 'updateVolume'])->name('mangahub.updateVolume');
 });
 
 Route::middleware('auth')->group(function () {
@@ -39,4 +43,4 @@ Route::middleware('auth')->group(function () {
 });
 
 // 認証関連のルートの読み込み
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
