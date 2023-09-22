@@ -13,7 +13,7 @@ class MangahubController extends Controller
     public function index()
     {
         // 全ての漫画シリーズを3つずつページングで取得する
-        $allSeries = MangaSeries::with('mangaVolumes')->paginate(3);
+        $allSeries = MangaSeries::with('mangaVolumes')->paginate(10);
 
         // 各シリーズの巻数表示をセット
         foreach ($allSeries as $currentSeries) {
@@ -160,6 +160,59 @@ class MangahubController extends Controller
             DB::commit();
 
             return redirect('mangahub')->with('status', '更新が完了しました。');
+        } catch (\Exception $ex) {
+            DB::rollback();
+            logger($ex->getMessage());
+            return redirect('mangahub')->withErrors($ex->getMessage());
+        }
+    }
+
+    public function new(Request $request)
+    {
+        return view('mangahub.new');
+    }
+
+    public function create(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+
+            // タイトルによる重複のチェック
+            $existingSeries = MangaSeries::where('title', $request->input('title'))->first();
+            if ($existingSeries) {
+                throw new \Exception('このタイトルの漫画はすでに存在します。');
+            }
+
+            $seriesDetail = new MangaSeries();
+            $seriesDetail->user_id = auth()->id();
+            $seriesDetail->title = $request->input('title');
+            $seriesDetail->author = $request->input('author');
+            $seriesDetail->publication = $request->input('publication');
+            $seriesDetail->note = $request->input('note');
+            $seriesDetail->save();
+
+            // 巻数の追加
+            $startVolumeAdd = (int)$request->input('start_volume_add');
+            $endVolumeAdd = $request->input('end_volume_add') ? (int)$request->input('end_volume_add') : $startVolumeAdd;
+
+            if ($startVolumeAdd > 0 && $endVolumeAdd >= $startVolumeAdd) {
+                $volumesToAdd = range($startVolumeAdd, $endVolumeAdd);
+
+                foreach ($volumesToAdd as $volume) {
+                    $seriesDetail->mangaVolumes()->create([
+                        'user_id' => auth()->id(),
+                        'type' => 1,
+                        'volume' => $volume,
+                        'is_owned' => true,
+                        'is_read' => false,
+                        'wants_to_buy' => false,
+                        'wants_to_read' => false,
+                    ]);
+                }
+            }
+
+            DB::commit();
+            return redirect('mangahub')->with('status', '新規作成が完了しました。');
         } catch (\Exception $ex) {
             DB::rollback();
             logger($ex->getMessage());

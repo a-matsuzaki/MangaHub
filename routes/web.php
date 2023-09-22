@@ -31,9 +31,11 @@ Route::middleware('auth')->prefix('mangahub')->group(function () {
     Route::get('/detail/{id}', [MangahubController::class, 'detail'])->name('mangahub.detail');
     Route::get('/editSeries/{id}', [MangahubController::class, 'editSeries'])->name('mangahub.editSeries');
     Route::get('/editVolume/{id}', [MangahubController::class, 'editVolume'])->name('mangahub.editVolume');
+    Route::get('/new', [MangahubController::class, 'new'])->name('mangahub.new');
 
     Route::patch('/updateSeries', [MangahubController::class, 'updateSeries'])->name('mangahub.updateSeries');
     Route::patch('/updateVolume', [MangahubController::class, 'updateVolume'])->name('mangahub.updateVolume');
+    Route::post('/create', [MangahubController::class, 'create'])->name('mangahub.create');
 });
 
 Route::middleware('auth')->group(function () {
