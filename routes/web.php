@@ -36,6 +36,7 @@ Route::middleware('auth')->prefix('mangahub')->group(function () {
     Route::patch('/updateSeries', [MangahubController::class, 'updateSeries'])->name('mangahub.updateSeries');
     Route::patch('/updateVolume', [MangahubController::class, 'updateVolume'])->name('mangahub.updateVolume');
     Route::post('/create', [MangahubController::class, 'create'])->name('mangahub.create');
+    Route::delete('/remove/{id}', [MangahubController::class, 'remove'])->name('mangahub.remove');
 });
 
 Route::middleware('auth')->group(function () {

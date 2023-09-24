@@ -220,6 +220,21 @@ class MangahubController extends Controller
         }
     }
 
+    public function remove($id)
+    {
+        try {
+            $volume = MangaVolume::findOrFail($id);
+            $volume->delete();
+
+            return redirect('mangahub')->with('status', '本を削除しました。');
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return redirect('mangahub')->withErrors('指定された本が見つかりませんでした。');
+        } catch (\Exception $ex) {
+            logger($ex->getMessage());
+            return redirect('mangahub')->withErrors($ex->getMessage());
+        }
+    }
+
 
     /**
      * 指定されたシリーズの巻数表示をセット
