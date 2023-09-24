@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateRequest;
+use App\Http\Requests\EditSeriesRequest;
+use App\Http\Requests\EditVolumeRequest;
 use App\Models\MangaSeries;
 use App\Models\MangaVolume;
 use Illuminate\Http\Request;
@@ -64,7 +67,7 @@ class MangahubController extends Controller
     }
 
 
-    public function updateSeries(Request $request)
+    public function updateSeries(EditSeriesRequest $request)
     {
         try {
             DB::beginTransaction();
@@ -140,7 +143,7 @@ class MangahubController extends Controller
         }
     }
 
-    public function updateVolume(Request $request)
+    public function updateVolume(EditVolumeRequest $request)
     {
         try {
             DB::beginTransaction();
@@ -167,12 +170,12 @@ class MangahubController extends Controller
         }
     }
 
-    public function new(Request $request)
+    public function new()
     {
         return view('mangahub.new');
     }
 
-    public function create(Request $request)
+    public function create(CreateRequest $request)
     {
         try {
             DB::beginTransaction();
@@ -234,7 +237,6 @@ class MangahubController extends Controller
             return redirect('mangahub')->withErrors($ex->getMessage());
         }
     }
-
 
     /**
      * 指定されたシリーズの巻数表示をセット

@@ -26,6 +26,9 @@
                                                                 <input type="radio" name="is_owned" value="0" x-model="isOwned">
                                                                 <label>持っていない</label>
                                                                 <input type="hidden" name="is_owned" x-bind:value="isOwned">
+                                                                @error('is_owned')
+                                                                <div class="text-red-600">{{ $message }}</div>
+                                                                @enderror
                                                             </span>
                                                         </td>
                                                     </tr>
@@ -36,6 +39,9 @@
                                                                 <input type="checkbox" x-bind:checked="isRead == 1" x-on:change="isRead = $event.target.checked ? 1 : 0">
                                                                 <label>既読</label>
                                                                 <input type="hidden" name="is_read" x-bind:value="isRead">
+                                                                @error('is_read')
+                                                                <div class="text-red-600">{{ $message }}</div>
+                                                                @enderror
                                                             </span>
                                                         </td>
                                                     </tr>
@@ -46,6 +52,9 @@
                                                                 <input type="checkbox" x-bind:checked="wantsToBuy == 1" x-on:change="wantsToBuy = $event.target.checked ? 1 : 0">
                                                                 <label>買いたい</label>
                                                                 <input type="hidden" name="wants_to_buy" x-bind:value="wantsToBuy">
+                                                                @error('wants_to_buy')
+                                                                <div class="text-red-600">{{ $message }}</div>
+                                                                @enderror
                                                             </span>
                                                         </td>
                                                     </tr>
@@ -56,6 +65,9 @@
                                                                 <input type="checkbox" x-bind:checked="wantsToRead == 1" x-on:change="wantsToRead = $event.target.checked ? 1 : 0">
                                                                 <label>読みたい</label>
                                                                 <input type="hidden" name="wants_to_read" x-bind:value="wantsToRead">
+                                                                @error('wants_to_read')
+                                                                <div class="text-red-600">{{ $message }}</div>
+                                                                @enderror
                                                             </span>
                                                         </td>
                                                     </tr>
@@ -64,7 +76,10 @@
                                                             <span class="col-span-3 text-sm font-medium text-gray-800 dark:text-gray-200">メモ</span>
                                                             <span class="col-span-9 text-sm text-gray-800 dark:text-gray-200">
                                                                 <div class="mt-2">
-                                                                    <textarea id="note" name="note" rows="5" class="py-2 px-3 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">{{ $volumeDetail->note }}</textarea>
+                                                                    <textarea id="note" name="note" value="{{ old('note', $seriesDetail->note) }}" rows="5" class="py-2 px-3 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">{{ $volumeDetail->note }}</textarea>
+                                                                    @error('note')
+                                                                    <div class="text-red-600">{{ $message }}</div>
+                                                                    @enderror
                                                                 </div>
                                                             </span>
                                                         </td>

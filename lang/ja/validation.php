@@ -247,6 +247,18 @@ return [
         'updated_at' => '更新日',
         'username' => 'ユーザー名',
         'year' => '年',
+        'title' => 'タイトル',
+        'start_volume_add' => '開始巻数',
+        'end_volume_add' => '終了巻数',
+        'start_volume_remove' => '開始巻数',
+        'end_volume_remove' => '終了巻数',
+        'author' => '著者',
+        'publication' => '出版社',
+        'note' => 'メモ',
+        'is_owned' => '所有',
+        'is_read' => '既読',
+        'wants_to_buy' => '買いたい',
+        'wants_to_read' => '読みたい',
     ],
 
 ];
