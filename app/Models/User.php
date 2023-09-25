@@ -2,31 +2,31 @@
 
 namespace App\Models;
 
-// メールアドレスの確認が必要なユーザーを示すインターフェース
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-// Eloquentのファクトリー機能: テストデータの生成やデータベースのシード時に使用
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-// 認証用の基本的なUserクラス: 認証に必要な基本的なプロパティやメソッドを提供
 use Illuminate\Foundation\Auth\User as Authenticatable;
-// 通知機能のトレイト: ユーザーへの通知を簡単に送ることができるようにする
 use Illuminate\Notifications\Notifiable;
-// SanctumのAPIトークン機能のトレイト: APIトークンを用いた認証の機能を提供
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * Userモデル
+ *
+ * @package App\Models
+ */
 class User extends Authenticatable implements MustVerifyEmail
 {
-    // APIトークンによる認証
+    // APIトークンによる認証の機能を提供
     use HasApiTokens;
 
-    // Eloquentのファクトリー
+    // Eloquentのファクトリートレイトを使用
     use HasFactory;
 
-    // Eloquentの通知
+    // 通知機能のトレイトを使用
     use Notifiable;
 
     /**
-     * このモデルで代入を許可する属性のリスト。
-     * これにより、$user->fill($requestData)のような操作が安全に行えます。
+     * モデルが代入を許可する属性のリスト。
+     * Eloquentのマスアサインメントの対策として指定。
      *
      * @var array<int, string>
      */
@@ -37,30 +37,29 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
-     * シリアル化時（例：JSON応答など）に隠蔽される属性。
-     * このリストに含まれる属性は公開されません。
+     * JSONとしてシリアル化する際や配列に変換する際に隠される属性のリスト。
      *
      * @var array<int, string>
      */
     protected $hidden = [
-        'password', // パスワードはシリアル化時に非表示にする
-        'remember_token', // remember_tokenも非表示にする
+        'password', // セキュリティ上、公開されるべきでないため
+        'remember_token', // セッションの永続化に使用されるが、公開されるべきでない
     ];
 
     /**
-     * 属性のデータ型をキャストするための設定。
-     * これにより、特定の属性を特定の型に自動的に変換できます。
+     * 特定の属性の値を自動的に型変換するための設定。
      *
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime', // メールの確認日時を日時型として取得
+        'email_verified_at' => 'datetime', // メール確認の日時をdatetime型にキャスト
         'password' => 'hashed',
     ];
 
     /**
-     * Userが所有している漫画シリーズを取得。
-     * hasManyリレーションを使用して、対応するMangaSeriesモデルのインスタンスを取得します。
+     * ユーザーが所有する漫画シリーズを取得するリレーション。
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function mangaSeries()
     {
@@ -68,8 +67,9 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Userが所有している漫画の巻数を取得。
-     * hasManyリレーションを使用して、対応するMangaVolumeモデルのインスタンスを取得します。
+     * ユーザーが所有する漫画ボリュームを取得するリレーション。
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function mangaVolumes()
     {

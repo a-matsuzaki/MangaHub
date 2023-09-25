@@ -2,6 +2,48 @@
     @if(session('status'))
     <x-ui.flash-message message="{{ session('status') }}"></x-ui.flash-message>
     @endif
+
+    <div class="pt-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="m-5">
+                    <form action="{{ route('mangahub') }}" method="GET">
+                        <div class="flex flex-row">
+                            <div class="col-span-6 sm:col-span-3 p-2 flex-1">
+                                <label for="name" class="block text-sm font-medium text-gray-700">タイトル</label>
+                                <input type="text" name="title" id="title" value="{{ $title }}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </div>
+                            <div class="p-2 flex-1">
+                                <label for="author" class="block text-sm font-medium text-gray-700">著者</label>
+                                <select id="author" name="author" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                    <option value="">--</option>
+                                    @foreach($authors as $option)
+                                    <option value="{{ $option }}" @if($author==$option) selected @endif>{{ $option }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="p-2 flex-1">
+                                <label for="publication" class="block text-sm font-medium text-gray-700">出版</label>
+                                <select id="publication" name="publication" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                    <option value="">--</option>
+                                    @foreach($publications as $option)
+                                    <option value="{{ $option }}" @if($publication==$option) selected @endif>{{ $option }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3 p-2 flex-1">
+                                <label for="note" class="block text-sm font-medium text-gray-700">メモ</label>
+                                <input type="text" name="note" id="note" value="{{ $note }}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </div>
+                            <div class="col-span-6 sm:col-span-3 p-2 flex-1 relative">
+                                <button type="submit" class="absolute inset-x-0 bottom-2 mr-2 shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">検索</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">

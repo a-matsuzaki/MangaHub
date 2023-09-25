@@ -5,37 +5,29 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * 漫画の各ボリュームを表すモデル
+ */
 class MangaVolume extends Model
 {
+    // EloquentのFactoryトレイトを使用して、データベースファクトリーをこのモデルに関連付ける
     use HasFactory;
 
-    /**
-     * id: 巻数ID, autoincrement, 主キー, not null
-     * series_id: シリーズID integer, not null
-     * user_id: ユーザーID integer, not null
-     * type: 通常盤かどうか, boolean, not null
-     * volume: 巻数 integer, not null
-     * is_owned: 所有ステータス boolean, not null
-     * is_read: 読書ステータス boolean, not null
-     * wants_to_buy: 購入意向 boolean, not null
-     * wants_to_read: 読書意向 boolean, not null
-     * note: string, メモ（備考） length 1000, null許可
-     * timestamps(updated_at, created_at)
-     *
-     */
-
+    // モデルの属性の一部のみをデータベースに保存・更新を許可するための配列
     protected $fillable = [
-        'user_id',
-        'type',
-        'volume',
-        'is_owned',
-        'is_read',
-        'wants_to_buy',
-        'wants_to_read',
+        'user_id',          // ユーザーID
+        'type',             // ボリュームのタイプ（例: 通常、特別など）
+        'volume',           // ボリューム番号
+        'is_owned',         // 所有しているかどうかのフラグ
+        'is_read',          // 既読かどうかのフラグ
+        'wants_to_buy',     // 購入を希望するかどうかのフラグ
+        'wants_to_read',    // 読みたいと思っているかどうかのフラグ
     ];
 
     /**
-     * この漫画ボリュームを所有するユーザーを取得。
+     * この漫画ボリュームの所有者として関連付けられているユーザーモデルを取得する
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
     {
@@ -43,7 +35,9 @@ class MangaVolume extends Model
     }
 
     /**
-     * この漫画ボリュームが属する漫画シリーズを取得。
+     * この漫画ボリュームが属している漫画シリーズモデルを取得する
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function mangaSeries()
     {
