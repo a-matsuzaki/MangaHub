@@ -35,7 +35,7 @@
             </main>
         </div>
         <footer class="bg-white text-gray-500 py-4 text-center">
-            © 2023 MangaHub. All rights reserved.
+            © 2023 MyMangaHub. All rights reserved.
         </footer>
     </body>
 </html>

@@ -83,9 +83,13 @@ class MangahubController extends Controller
      */
     public function detail($id)
     {
-        // 指定されたIDを持つマンガシリーズと、それに関連するmangaVolumesを取得。
+        // 指定されたIDを持つマンガシリーズを取得。
         // 存在しない場合は、404エラーを返す。
-        $seriesDetail = MangaSeries::with('mangaVolumes')->findOrFail($id);
+        $seriesDetail = MangaSeries::findOrFail($id);
+
+        // mangaVolumesリレーションにページネーションを適用
+        // 例として、1ページあたり10冊を取得する設定にしています。この数字は任意に変更可能です。
+        $seriesDetail->mangaVolumes = $seriesDetail->mangaVolumes()->paginate(10);
 
         // 取得したマンガシリーズの巻数表示を設定
         $this->setVolumeDisplay($seriesDetail, true);
@@ -95,6 +99,7 @@ class MangahubController extends Controller
         return view('mangahub.detail', ['seriesDetail' => $seriesDetail]);
     }
 
+
     /**
      * 指定されたIDに基づいてマンガシリーズの編集ページを表示します。
      *
@@ -103,9 +108,13 @@ class MangahubController extends Controller
      */
     public function editSeries($id)
     {
-        // 指定されたIDを持つマンガシリーズと、それに関連するmangaVolumesを取得。
+        // 指定されたIDを持つマンガシリーズを取得。
         // 存在しない場合は、404エラーを返す。
-        $seriesDetail = MangaSeries::with('mangaVolumes')->findOrFail($id);
+        $seriesDetail = MangaSeries::findOrFail($id);
+
+        // mangaVolumesリレーションにページネーションを適用
+        // 例として、1ページあたり10冊を取得する設定にしています。この数字は任意に変更可能です。
+        $seriesDetail->mangaVolumes = $seriesDetail->mangaVolumes()->paginate(10);
 
         // 取得したマンガシリーズの巻数表示を設定
         $this->setVolumeDisplay($seriesDetail, true);
