@@ -1,5 +1,5 @@
 # ベースとなるイメージを指定
-FROM php:8.0-fpm
+FROM php:8.1-fpm
 
 # 必要なライブラリのインストール
 RUN apt-get update && apt-get install -y \
