@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
  * authミドルウェアを適用し、認証済みのユーザーのみがアクセス可能。
  */
 
-Route::middleware('auth')->prefix('mangahub')->group(function () {
+Route::middleware('auth')->group(function () {
     // メインのMangahubページ
     Route::get('/', [MangahubController::class, 'index'])->name('mangahub');
 
