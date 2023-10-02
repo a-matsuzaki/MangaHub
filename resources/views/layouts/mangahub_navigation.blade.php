@@ -21,7 +21,7 @@
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <button type="button" onclick="location.href='/mangahub/new'" class="mr-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">{{ __('新規登録') }}</button>
+                    <button type="button" onclick="location.href='/new'" class="mr-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">{{ __('新規登録') }}</button>
                 </div>
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
