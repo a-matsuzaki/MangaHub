@@ -15,7 +15,10 @@ class HttpsMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!$request->secure() && env('APP_ENV') === 'production') {
+        // HerokuのX-Forwarded-Protoヘッダーを利用
+        $isSecure = $request->header('x-forwarded-proto') === 'https';
+
+        if (!$isSecure && env('APP_ENV') === 'production') {
             return redirect()->secure($request->getRequestUri());
         }
 
