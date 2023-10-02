@@ -223,7 +223,7 @@ class MangahubController extends Controller
 
             // トランザクションをコミットしてデータベースの変更を保存
             DB::commit();
-            return redirect('mangahub')->with('status', '更新が完了しました。');
+            return redirect('/')->with('status', '更新が完了しました。');
         } catch (\Exception $ex) {
             // 何らかのエラーが発生した場合、変更をロールバック
             DB::rollback();
@@ -232,7 +232,7 @@ class MangahubController extends Controller
             logger($ex->getMessage());
 
             // エラーメッセージを持ってリダイレクト
-            return redirect('mangahub')->withErrors($ex->getMessage());
+            return redirect('/')->withErrors($ex->getMessage());
         }
     }
 
@@ -265,7 +265,7 @@ class MangahubController extends Controller
             DB::commit();
 
             // 更新完了のステータスを持ってmangahubにリダイレクト
-            return redirect('mangahub')->with('status', '更新が完了しました。');
+            return redirect('/')->with('status', '更新が完了しました。');
         } catch (\Exception $ex) {
             // 何らかのエラーが発生した場合、変更をロールバック
             DB::rollback();
@@ -274,7 +274,7 @@ class MangahubController extends Controller
             logger($ex->getMessage());
 
             // エラーメッセージを持ってリダイレクト
-            return redirect('mangahub')->withErrors($ex->getMessage());
+            return redirect('/')->withErrors($ex->getMessage());
         }
     }
 
@@ -343,14 +343,14 @@ class MangahubController extends Controller
             // トランザクションをコミット
             DB::commit();
             // 成功した場合、メッセージとともにリダイレクト
-            return redirect('mangahub')->with('status', '新規作成が完了しました。');
+            return redirect('/')->with('status', '新規作成が完了しました。');
         } catch (\Exception $ex) {
             // 例外が発生した場合、トランザクションをロールバック
             DB::rollback();
             // エラーログに例外のメッセージを記録
             logger($ex->getMessage());
             // エラーメッセージとともにリダイレクト
-            return redirect('mangahub')->withErrors($ex->getMessage());
+            return redirect('/')->withErrors($ex->getMessage());
         }
     }
 
@@ -369,14 +369,14 @@ class MangahubController extends Controller
             $volume->delete();
 
             // 削除が成功した場合、メッセージとともにリダイレクト
-            return redirect('mangahub')->with('status', '本を削除しました。');
+            return redirect('/')->with('status', '本を削除しました。');
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             // 指定されたIDのマンガ巻が存在しない場合の例外処理
-            return redirect('mangahub')->withErrors('指定された本が見つかりませんでした。');
+            return redirect('/')->withErrors('指定された本が見つかりませんでした。');
         } catch (\Exception $ex) {
             // その他の例外処理
             logger($ex->getMessage());  // エラーログに例外のメッセージを記録
-            return redirect('mangahub')->withErrors($ex->getMessage());
+            return redirect('/')->withErrors($ex->getMessage());
         }
     }
 
