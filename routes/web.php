@@ -12,24 +12,13 @@ use Illuminate\Support\Facades\Route;
 | RouteServiceProviderによって全てのルートが読み込まれます。
 | "web"ミドルウェアグループがすべてのルートに自動的に適用されます。
 |
-*/
-
-// トップページへのアクセス時の表示ビューを指定
-Route::get('/', function () {
-    return view('welcome');
-});
-
-// ダッシュボードページに関するルート定義
-// authとverifiedミドルウェアを適用し、認証およびメール確認が完了しているユーザーのみがアクセス可能
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 /**
  * Mangahubに関するルート定義グループ
  * "mangahub"というURLプレフィックスを持つ。
  * authミドルウェアを適用し、認証済みのユーザーのみがアクセス可能。
  */
+
 Route::middleware('auth')->prefix('mangahub')->group(function () {
     // メインのMangahubページ
     Route::get('/', [MangahubController::class, 'index'])->name('mangahub');
