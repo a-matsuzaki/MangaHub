@@ -87,6 +87,8 @@ class MangahubController extends Controller
         // 存在しない場合は、404エラーを返す。
         $seriesDetail = MangaSeries::findOrFail($id);
 
+        $allVolumes = $seriesDetail->mangaVolumes()->get();
+
         // mangaVolumesリレーションにページネーションを適用
         // 例として、1ページあたり10冊を取得する設定にしています。この数字は任意に変更可能です。
         $seriesDetail->mangaVolumes = $seriesDetail->mangaVolumes()->paginate(10);
@@ -96,7 +98,7 @@ class MangahubController extends Controller
         $this->setVolumeDisplay($seriesDetail, false);
 
         // マンガシリーズの詳細ビューを返す。ビューにシリーズの詳細データを渡す。
-        return view('mangahub.detail', ['seriesDetail' => $seriesDetail]);
+        return view('mangahub.detail', ['seriesDetail' => $seriesDetail, 'allVolumes' => $allVolumes]);
     }
 
 
