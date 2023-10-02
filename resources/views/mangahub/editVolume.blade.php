@@ -98,7 +98,7 @@
                     </div>
                 </form>
                 <div class="absolute bottom-10 right-0">
-                    <form action="/mangahub/remove/{{ $volumeDetail->id }}" method="POST">
+                    <form action="/remove/{{ $volumeDetail->id }}" method="POST">
                         @csrf
                         @method('delete')
                         <button type="submit" class="mr-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">削除</button>

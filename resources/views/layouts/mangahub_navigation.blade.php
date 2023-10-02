@@ -57,7 +57,7 @@
             <!-- Hamburger & New Registration for Mobile -->
             <div class="-mr-2 flex items-center sm:hidden">
                 <!-- 新規登録ボタン: スマホ時のみ表示 -->
-                <button type="button" onclick="location.href='/mangahub/new'" class="mr-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">{{ __('新規登録') }}</button>
+                <button type="button" onclick="location.href='/new'" class="mr-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">{{ __('新規登録') }}</button>
 
                 <!-- Hamburger -->
                 <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">

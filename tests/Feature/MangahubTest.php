@@ -22,7 +22,7 @@ class MangaHubTest extends TestCase
     public function test_authenticated_user_can_access_index()
     {
         $user = User::factory()->create();
-        $response = $this->actingAs($user)->get('/mangahub');
+        $response = $this->actingAs($user)->get('/');
         $response->assertStatus(200);
     }
 
@@ -37,7 +37,7 @@ class MangaHubTest extends TestCase
     {
         $user = User::factory()->create();
         $manga = MangaSeries::factory()->create();
-        $response = $this->actingAs($user)->get("/mangahub/detail/{$manga->id}");
+        $response = $this->actingAs($user)->get("/detail/{$manga->id}");
         $response->assertStatus(200);
     }
 
@@ -52,7 +52,7 @@ class MangaHubTest extends TestCase
     {
         $user = User::factory()->create();
         $manga = MangaSeries::factory()->create();
-        $response = $this->actingAs($user)->get("/mangahub/editSeries/{$manga->id}");
+        $response = $this->actingAs($user)->get("/editSeries/{$manga->id}");
         $response->assertStatus(200);
     }
 
@@ -68,7 +68,7 @@ class MangaHubTest extends TestCase
         $user = User::factory()->create();
         MangaSeries::factory()->create();
         $volume = MangaVolume::factory()->create();
-        $response = $this->actingAs($user)->get("/mangahub/editVolume/{$volume->id}");
+        $response = $this->actingAs($user)->get("/editVolume/{$volume->id}");
         $response->assertStatus(200);
     }
 
@@ -82,7 +82,7 @@ class MangaHubTest extends TestCase
     public function test_authenticated_user_can_access_new()
     {
         $user = User::factory()->create();
-        $response = $this->actingAs($user)->get("/mangahub/new");
+        $response = $this->actingAs($user)->get("/new");
         $response->assertStatus(200);
     }
 
@@ -94,7 +94,7 @@ class MangaHubTest extends TestCase
      */
     public function test_guest_is_redirected_to_login_when_accessing_index()
     {
-        $response = $this->get('/mangahub');
+        $response = $this->get('/');
         $response->assertRedirect('/login');
     }
 
@@ -109,7 +109,7 @@ class MangaHubTest extends TestCase
     {
         User::factory()->create();
         $manga = MangaSeries::factory()->create();
-        $response = $this->get("/mangahub/detail/{$manga->id}");
+        $response = $this->get("/detail/{$manga->id}");
         $response->assertRedirect('/login');
     }
 
@@ -124,7 +124,7 @@ class MangaHubTest extends TestCase
     {
         User::factory()->create();
         $manga = MangaSeries::factory()->create();
-        $response = $this->get("/mangahub/editSeries/{$manga->id}");
+        $response = $this->get("/editSeries/{$manga->id}");
         $response->assertRedirect('/login');
     }
 
@@ -140,7 +140,7 @@ class MangaHubTest extends TestCase
         User::factory()->create();
         MangaSeries::factory()->create();
         $volume = MangaVolume::factory()->create();
-        $response = $this->get("/mangahub/editVolume/{$volume->id}");
+        $response = $this->get("/editVolume/{$volume->id}");
         $response->assertRedirect('/login');
     }
 
@@ -152,7 +152,7 @@ class MangaHubTest extends TestCase
      */
     public function test_guest_is_redirected_to_login_when_accessing_new()
     {
-        $response = $this->get("/mangahub/new");
+        $response = $this->get("/new");
         $response->assertRedirect('/login');
     }
 
@@ -168,7 +168,7 @@ class MangaHubTest extends TestCase
         $user = User::factory()->create();
         $invalidId = MangaSeries::max('id') + 1;
 
-        $response = $this->actingAs($user)->get("/mangahub/detail/{$invalidId}");
+        $response = $this->actingAs($user)->get("/detail/{$invalidId}");
         $response->assertStatus(404);
     }
 
@@ -185,7 +185,7 @@ class MangaHubTest extends TestCase
         $user = User::factory()->create();
         $this->actingAs($user);
 
-        $response = $this->get("/mangahub/volume/999999");  // 高確率で存在しないID
+        $response = $this->get("/volume/999999");  // 高確率で存在しないID
         $response->assertStatus(404);
     }
 
@@ -209,7 +209,7 @@ class MangaHubTest extends TestCase
         $this->actingAs($user);
 
         $minId = MangaSeries::min('id');
-        $response = $this->get("/mangahub/detail/{$minId}");
+        $response = $this->get("/detail/{$minId}");
         $response->assertOk();
     }
 }
