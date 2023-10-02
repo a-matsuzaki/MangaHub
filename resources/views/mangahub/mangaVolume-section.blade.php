@@ -47,7 +47,7 @@
                                               </td>
                                               <td class="w-2/12 px-6 py-4 text-sm text-gray-800 dark:text-gray-200">{{ $volume->note }}</td>
                                               <td class="w-1/12 py-4 whitespace-nowrap text-center text-sm font-medium">
-                                                  <button type="button" onclick="location.href='/mangahub/editVolume/{{ $volume->id }}'" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">編集</button>
+                                                  <button type="button" onclick="location.href='/editVolume/{{ $volume->id }}'" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">編集</button>
                                               </td>
                                           </tr>
                                           @endforeach
@@ -96,7 +96,7 @@
                               <span class="text-gray-500">メモ:</span>
                               {{ $volume->note }}
                           </div>
-                          <button type="button" onclick="location.href='/mangahub/editVolume/{{ $volume->id }}'" class="mt-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">編集</button>
+                          <button type="button" onclick="location.href='/editVolume/{{ $volume->id }}'" class="mt-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">編集</button>
                       </div>
                       @endforeach
                   </div>
