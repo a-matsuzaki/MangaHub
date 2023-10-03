@@ -32,9 +32,9 @@
                                                         <td class="grid grid-cols-12 px-6 py-4 items-center">
                                                             <span class="col-span-3 text-sm font-medium text-gray-800 dark:text-gray-200">巻の追加</span>
                                                             <div class="col-span-9 flex flex-col sm:flex-row gap-2">
-                                                                <input type="text" name="start_volume_add" placeholder="開始巻" class="text-sm px-2 py-1 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">
+                                                                <input type="text" name="start_volume_add" placeholder="開始巻" value="{{ old('start_volume_add') }}" class="text-sm px-2 py-1 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">
                                                                 <span class="text-sm self-center hidden sm:inline-block">～</span>
-                                                                <input type="text" name="end_volume_add" placeholder="終了巻" class="text-sm px-2 py-1 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">
+                                                                <input type="text" name="end_volume_add" placeholder="終了巻" value="{{ old('end_volume_add') }}" class="text-sm px-2 py-1 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">
                                                                 @error('start_volume_add')
                                                                 <div class="text-red-600">{{ $message }}</div>
                                                                 @enderror
@@ -48,9 +48,9 @@
                                                         <td class="grid grid-cols-12 px-6 py-4 items-center">
                                                             <span class="col-span-3 text-sm font-medium text-gray-800 dark:text-gray-200">巻の削除</span>
                                                             <div class="col-span-9 flex flex-col sm:flex-row gap-2">
-                                                                <input type="text" name="start_volume_remove" placeholder="開始巻" class="text-sm px-2 py-1 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">
+                                                                <input type="text" name="start_volume_remove" placeholder="開始巻" value="{{ old('start_volume_remove') }}" class="text-sm px-2 py-1 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">
                                                                 <span class="text-sm self-center hidden sm:inline-block">～</span>
-                                                                <input type="text" name="end_volume_remove" placeholder="終了巻" class="text-sm px-2 py-1 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">
+                                                                <input type="text" name="end_volume_remove" placeholder="終了巻" value="{{ old('end_volume_remove') }}" class="text-sm px-2 py-1 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">
                                                                 @error('start_volume_remove')
                                                                 <div class="text-red-600">{{ $message }}</div>
                                                                 @enderror

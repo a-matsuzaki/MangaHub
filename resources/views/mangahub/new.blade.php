@@ -19,7 +19,7 @@
                             <td class="grid grid-cols-12 px-6 py-4 items-center">
                               <span class="col-span-3 text-sm font-medium text-gray-800 dark:text-gray-200">{{ __('タイトル') }}</span>
                               <span class="col-span-9 text-sm text-gray-800 dark:text-gray-200">
-                                <input type="text" name="title" value="" class="py-2 px-3 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">
+                                <input type="text" name="title" value="{{ old('title') }}" class="py-2 px-3 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">
                                 @error('title')
                                 <div class="text-red-600">{{ $message }}</div>
                                 @enderror
@@ -30,9 +30,9 @@
                             <td class="grid grid-cols-12 px-6 py-4 items-center">
                               <span class="col-span-3 text-sm font-medium text-gray-800 dark:text-gray-200">{{ __('巻の追加') }}</span>
                               <div class="col-span-9 flex flex-col sm:flex-row gap-2">
-                                <input type="text" name="start_volume_add" placeholder="開始巻" class="text-sm px-2 py-1 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">
+                                <input type="text" name="start_volume_add" placeholder="開始巻" value="{{ old('start_volume_add') }}" class="text-sm px-2 py-1 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">
                                 <span class="text-sm self-center hidden sm:inline-block">～</span>
-                                <input type="text" name="end_volume_add" placeholder="終了巻" class="text-sm px-2 py-1 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">
+                                <input type="text" name="end_volume_add" placeholder="終了巻" value="{{ old('end_volume_add') }}" class="text-sm px-2 py-1 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">
                                 @error('start_volume_add')
                                 <div class="text-red-600">{{ $message }}</div>
                                 @enderror
@@ -46,7 +46,7 @@
                             <td class="grid grid-cols-12 px-6 py-4 items-center">
                               <span class="col-span-3 text-sm font-medium text-gray-800 dark:text-gray-200">{{ __('著者') }}</span>
                               <span class="col-span-9 text-sm text-gray-800 dark:text-gray-200">
-                                <input type="text" name="author" value="" class="py-2 px-3 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">
+                                <input type="text" name="author" value="{{ old('author') }}" class="py-2 px-3 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">
                                 @error('author')
                                 <div class="text-red-600">{{ $message }}</div>
                                 @enderror
@@ -57,7 +57,7 @@
                             <td class="grid grid-cols-12 px-6 py-4 items-center">
                               <span class="col-span-3 text-sm font-medium text-gray-800 dark:text-gray-200">{{ __('出版社') }}</span>
                               <span class="col-span-9 text-sm text-gray-800 dark:text-gray-200">
-                                <input type="text" name="publication" value="" class="py-2 px-3 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">
+                                <input type="text" name="publication" value="{{ old('publication') }}" class="py-2 px-3 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">
                                 @error('publication')
                                 <div class="text-red-600">{{ $message }}</div>
                                 @enderror
@@ -69,7 +69,7 @@
                               <span class="col-span-3 text-sm font-medium text-gray-800 dark:text-gray-200">{{ __('メモ') }}</span>
                               <span class="col-span-9 text-sm text-gray-800 dark:text-gray-200">
                                 <div class="mt-2">
-                                  <textarea id="note" name="note" rows="5" class="py-2 px-3 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"></textarea>
+                                  <textarea id="note" name="note" rows="5" class="py-2 px-3 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">{{ old('note') }}</textarea>
                                   @error('note')
                                   <div class="text-red-600">{{ $message }}</div>
                                   @enderror
