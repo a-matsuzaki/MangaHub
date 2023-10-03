@@ -27,6 +27,7 @@ class MangahubController extends Controller
 
         // MangaSeriesモデルと関連するmangaVolumesを取得するクエリの準備
         $query = MangaSeries::with('mangaVolumes');
+        $missed_volumes = $request->input('missed_volumes', 0);
 
         // タイトルでの検索条件を追加
         if (isset($input['title']) && !empty($input['title'])) {
@@ -46,6 +47,13 @@ class MangahubController extends Controller
         // ノートでの検索条件を追加
         if (isset($input['note']) && !empty($input['note'])) {
             $query->where('note', 'LIKE', '%' . $input['note'] . '%');
+        }
+
+        // 買い忘れのマンガを検索する条件を追加
+        if (isset($input['missed_volumes']) && $input['missed_volumes'] == 1) {
+            $query->whereHas('mangaVolumes', function ($subQuery) {
+                $subQuery->where('is_owned', false);
+            });
         }
 
         // IDの降順でシリーズを取得し、ページネーションを10項目で適用
@@ -72,6 +80,7 @@ class MangahubController extends Controller
             'publication' => $input['publication'] ?? '',
             'author' => $input['author'] ?? '',
             'note' => $input['note'] ?? '',
+            'missed_volumes' => $missed_volumes,
         ]);
     }
 
