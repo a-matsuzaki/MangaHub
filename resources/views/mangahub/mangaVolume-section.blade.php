@@ -20,7 +20,7 @@
                                           </tr>
                                       </thead>
                                       <tbody>
-                                          @foreach($seriesDetail->mangaVolumes as $volume)
+                                          @foreach($paginatedVolumes as $volume)
                                           <tr class="odd:bg-white even:bg-gray-100 dark:odd:bg-slate-900 dark:even:bg-slate-800">
                                               <td class="w-2/12 px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">{{ $seriesDetail->title }}第{{ $volume->volume }}巻</td>
                                               <td class="w-1/12 px-6 py-4 whitespace-nowrap text-center text-sm text-gray-800 dark:text-gray-200">
@@ -55,7 +55,7 @@
                                   </table>
                               </div>
                               <div class="mt-4">
-                                  {{ $seriesDetail->mangaVolumes->links() }}
+                                  {{ $paginatedVolumes->links() }}
                               </div>
                           </div>
                       </div>
@@ -63,7 +63,7 @@
               </div>
               <div class="lg:hidden">
                   <div class="overflow-y-auto max-h-[500px]">
-                      @foreach($seriesDetail->mangaVolumes as $volume)
+                      @foreach($paginatedVolumes as $volume)
                       <div class="bg-white shadow-sm mb-4 p-4 dark:bg-slate-900">
                           <div class="font-medium text-gray-800 dark:text-gray-200">{{ $seriesDetail->title }}第{{ $volume->volume }}巻</div>
                           <div class="mt-2">
@@ -101,7 +101,7 @@
                       @endforeach
                   </div>
                   <div class="mt-4">
-                      {{ $seriesDetail->mangaVolumes->links() }}
+                      {{ $paginatedVolumes->Links() }}
                   </div>
               </div>
           </div>
