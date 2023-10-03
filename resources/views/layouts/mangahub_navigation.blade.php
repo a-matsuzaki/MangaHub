@@ -20,6 +20,9 @@
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
+                <div class="mr-4">
+                    全：{{ $ownedVolumesCount }} 冊
+                </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <button type="button" onclick="location.href='/new'" class="mr-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">{{ __('新規登録') }}</button>
                 </div>
@@ -56,6 +59,9 @@
 
             <!-- Hamburger & New Registration for Mobile -->
             <div class="-mr-2 flex items-center sm:hidden">
+                <div class="mr-4">
+                    全：{{ $ownedVolumesCount }} 冊
+                </div>
                 <!-- 新規登録ボタン: スマホ時のみ表示 -->
                 <button type="button" onclick="location.href='/new'" class="mr-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">{{ __('新規登録') }}</button>
 
