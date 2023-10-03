@@ -8,6 +8,10 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="m-5">
                     <form action="{{ route('mangahub') }}" method="GET">
+                        <div class="p-2">
+                            <input type="checkbox" id="missed_volumes" name="missed_volumes" value="1" {{ isset($missed_volumes) && $missed_volumes==1 ? 'checked' : '' }}>
+                            <label for="missed_volumes" class="ml-2 text-sm font-medium text-gray-700">買い忘れのあるマンガを表示</label>
+                        </div>
                         <div class="flex flex-col sm:flex-row">
                             <!-- タイトル -->
                             <div class="p-2 flex-1">
