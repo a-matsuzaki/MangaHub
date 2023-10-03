@@ -22,7 +22,7 @@
                                                 <tr>
                                                     <td class="grid grid-cols-10 px-6 py-4">
                                                         <span class="col-span-4 text-sm font-medium text-gray-800 dark:text-gray-200">所有巻数</span>
-                                                        <span class="col-span-6 text-sm text-gray-800 dark:text-gray-200">{!! $allVolumes->owned_volumes_display !!}</span>
+                                                        <span class="col-span-6 text-sm text-gray-800 dark:text-gray-200">{!! $seriesDetail->owned_volumes_display !!}</span>
                                                     </td>
                                                 </tr>
                                                 <tr>
