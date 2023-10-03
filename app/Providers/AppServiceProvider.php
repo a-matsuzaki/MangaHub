@@ -21,9 +21,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // if (config('app.force_ssl')) {
-        //     \URL::forceScheme('https');
-        // }
+        if (config('app.force_ssl')) {
+            \URL::forceScheme('https');
+        }
 
         View::composer('layouts.mangahub_navigation', function ($view) {
             if (Auth::check()) { // ユーザーがログインしている場合
