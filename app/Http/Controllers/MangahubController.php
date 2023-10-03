@@ -181,26 +181,39 @@ class MangahubController extends Controller
             $startVolumeAdd = (int)$request->input('start_volume_add');
             $endVolumeAdd = $request->input('end_volume_add') ? (int)$request->input('end_volume_add') : $startVolumeAdd;
 
-            // 0巻の追加を防ぐためのチェック
             if ($startVolumeAdd > 0 && $endVolumeAdd >= $startVolumeAdd) {
-                $volumesToAdd = range($startVolumeAdd, $endVolumeAdd);
+                $allVolumes = range(1, $endVolumeAdd); // 1巻から最終巻までの範囲
 
-                // 指定された巻数を追加するための処理
-                foreach ($volumesToAdd as $volume) {
+                foreach ($allVolumes as $volume) {
                     $existingVolume = $seriesDetail->mangaVolumes()->where('volume', $volume)->first();
-                    if ($existingVolume) {
-                        $existingVolume->is_owned = true;
-                        $existingVolume->save();
-                    } else {
-                        $seriesDetail->mangaVolumes()->create([
-                            'user_id' => auth()->id(),
-                            'type' => 1,
-                            'volume' => $volume,
-                            'is_owned' => true,
-                            'is_read' => false,
-                            'wants_to_buy' => false,
-                            'wants_to_read' => false,
-                        ]);
+
+                    if ($volume >= $startVolumeAdd) { // ユーザーが持っている範囲内
+                        if ($existingVolume) {
+                            $existingVolume->is_owned = true;
+                            $existingVolume->save();
+                        } else {
+                            $seriesDetail->mangaVolumes()->create([
+                                'user_id' => auth()->id(),
+                                'type' => 1,
+                                'volume' => $volume,
+                                'is_owned' => true,
+                                'is_read' => false,
+                                'wants_to_buy' => false,
+                                'wants_to_read' => false,
+                            ]);
+                        }
+                    } else { // ユーザーが持っていない範囲内
+                        if (!$existingVolume) {
+                            $seriesDetail->mangaVolumes()->create([
+                                'user_id' => auth()->id(),
+                                'type' => 1,
+                                'volume' => $volume,
+                                'is_owned' => false,
+                                'is_read' => false,
+                                'wants_to_buy' => false,
+                                'wants_to_read' => false,
+                            ]);
+                        }
                     }
                 }
             }
@@ -334,22 +347,34 @@ class MangahubController extends Controller
             $startVolumeAdd = (int)$request->input('start_volume_add');
             $endVolumeAdd = $request->input('end_volume_add') ? (int)$request->input('end_volume_add') : $startVolumeAdd;
 
-            // 追加する巻数が正しいかチェック
-            if ($startVolumeAdd > 0 && $endVolumeAdd >= $startVolumeAdd) {
-                $volumesToAdd = range($startVolumeAdd, $endVolumeAdd); // 追加する巻数の範囲を取得
-
-                // 各巻に対してデータベースに保存
-                foreach ($volumesToAdd as $volume) {
+            // 1. $startVolumeAdd から 1 までの巻がデータベースに登録されているか確認
+            for ($i = 1; $i < $startVolumeAdd; $i++) {
+                $existingVolume = $seriesDetail->mangaVolumes()->where('volume', $i)->first();
+                if (!$existingVolume) {
+                    // 登録されていない巻は「持っていない」として保存
                     $seriesDetail->mangaVolumes()->create([
                         'user_id' => auth()->id(),
                         'type' => 1,
-                        'volume' => $volume,
-                        'is_owned' => true,
+                        'volume' => $i,
+                        'is_owned' => false,
                         'is_read' => false,
                         'wants_to_buy' => false,
                         'wants_to_read' => false,
                     ]);
                 }
+            }
+
+            // 2. $startVolumeAdd から $endVolumeAdd の間の巻を「持っている」として保存
+            for ($i = $startVolumeAdd; $i <= $endVolumeAdd; $i++) {
+                $seriesDetail->mangaVolumes()->create([
+                    'user_id' => auth()->id(),
+                    'type' => 1,
+                    'volume' => $i,
+                    'is_owned' => true,
+                    'is_read' => false,
+                    'wants_to_buy' => false,
+                    'wants_to_read' => false,
+                ]);
             }
 
             // トランザクションをコミット
