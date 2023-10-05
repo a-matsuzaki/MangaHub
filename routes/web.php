@@ -46,6 +46,9 @@ Route::middleware('auth')->group(function () {
 
     // IDのデータの削除操作
     Route::delete('/remove/{id}', [MangahubController::class, 'remove'])->name('mangahub.remove');
+
+    // 買い忘れ一覧
+    Route::get('/buyingForgotten', [MangahubController::class, 'buyingForgotten'])->name('mangahub.buyingForgotten');
 });
 
 /**
