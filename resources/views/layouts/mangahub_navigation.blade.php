@@ -15,6 +15,9 @@
                     <x-nav-link :href="route('mangahub')" :active="request()->routeIs('mangahub')">
                         {{ __('漫画一覧') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('mangahub.buyingForgotten')" :active="request()->routeIs('mangahub.buyingForgotten')">
+                        {{ __('買い忘れ') }}
+                    </x-nav-link>
                 </div>
             </div>
 
