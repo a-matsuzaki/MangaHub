@@ -30,7 +30,7 @@
                             </div>
                             <!-- 出版 -->
                             <div class="p-2 flex-1">
-                                <label for="publication" class="block text-sm font-medium text-gray-700">出版</label>
+                                <label for="publication" class="block text-sm font-medium text-gray-700">出版社</label>
                                 <select id="publication" name="publication" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                     <option value="">--</option>
                                     @foreach($publications as $option)
