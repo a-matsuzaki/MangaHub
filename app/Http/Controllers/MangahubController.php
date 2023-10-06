@@ -114,7 +114,6 @@ class MangahubController extends Controller
         ]);
     }
 
-
     /**
      * 指定されたIDに基づいてマンガシリーズの編集ページを表示します。
      *
@@ -424,6 +423,23 @@ class MangahubController extends Controller
             logger($ex->getMessage());  // エラーログに例外のメッセージを記録
             return redirect('/')->withErrors($ex->getMessage());
         }
+    }
+
+    /**
+     * 購入を忘れたマンガの巻をリストアップして表示するアクション。
+     *
+     * この関数は、ユーザーがまだ所持していないマンガの巻をデータベースから取得し、
+     * それをビューに渡してリスト表示します。
+     *
+     * @return \Illuminate\View\View 購入を忘れたマンガの巻のリストを表示するビュー
+     */
+    public function buyingForgotten()
+    {
+        // 所有していないマンガの巻をデータベースから取得
+        $notOwnedVolumes = MangaVolume::where('is_owned', false)->get();
+
+        // ビューにデータを渡して表示
+        return view('mangahub.buyingForgotten', ['volumes' => $notOwnedVolumes]);
     }
 
     /**
