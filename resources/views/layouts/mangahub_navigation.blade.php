@@ -1,6 +1,6 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-22 sm:h-16">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
@@ -14,6 +14,9 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('mangahub')" :active="request()->routeIs('mangahub')">
                         {{ __('漫画一覧') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('mangahub.buyingForgotten')" :active="request()->routeIs('mangahub.buyingForgotten')">
+                        {{ __('買い忘れ') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -73,6 +76,15 @@
                     </svg>
                 </button>
             </div>
+        </div>
+        <!-- Navigation Links -->
+        <div class="sm:hidden flex justify-center space-x-16 mt-4">
+            <x-nav-link :href="route('mangahub')" :active="request()->routeIs('mangahub')">
+                {{ __('漫画一覧') }}
+            </x-nav-link>
+            <x-nav-link :href="route('mangahub.buyingForgotten')" :active="request()->routeIs('mangahub.buyingForgotten')">
+                {{ __('買い忘れ') }}
+            </x-nav-link>
         </div>
     </div>
 

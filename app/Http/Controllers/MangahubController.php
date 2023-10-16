@@ -10,6 +10,7 @@ use App\Models\MangaVolume;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class MangahubController extends Controller
 {
@@ -113,7 +114,6 @@ class MangahubController extends Controller
             'paginatedVolumes' => $paginatedVolumes
         ]);
     }
-
 
     /**
      * 指定されたIDに基づいてマンガシリーズの編集ページを表示します。
@@ -427,6 +427,42 @@ class MangahubController extends Controller
     }
 
     /**
+     * 購入を忘れたマンガの巻をリストアップして表示するアクション。
+     *
+     * この関数は、ユーザーがまだ所持していないマンガの巻をデータベースから取得し、
+     * それをビューに渡してリスト表示します。
+     *
+     * @return \Illuminate\View\View 購入を忘れたマンガの巻のリストを表示するビュー
+     */
+    public function buyingForgotten()
+    {
+        // 所有していないマンガの巻をデータベースから取得
+        $notOwnedVolumes = MangaVolume::where('is_owned', false)->with('mangaSeries')->get();
+
+        $affiliateId = 'yuruoji0a-22';
+
+        // 特定のユーザーIDを定義
+        $specificUserId = 1;  // ここに特定のユーザーIDをセット
+
+        // ログインユーザーのIDを取得
+        $loggedInUserId = Auth::id();
+
+        // 各巻に対するリンクを生成
+        foreach ($notOwnedVolumes as $volume) {
+            if ($loggedInUserId == $specificUserId) {
+                // 特定のユーザーがログインしている場合、普通のリンクを生成
+                $volume->affiliateLink = $this->generateRegularLink($volume->mangaSeries->title, $volume->volume);
+            } else {
+                // それ以外のユーザーの場合、アフィリエイトリンクを生成
+                $volume->affiliateLink = $this->generateLink($volume->mangaSeries->title, $volume->volume, $affiliateId);
+            }
+        }
+
+        // ビューにデータを渡して表示
+        return view('mangahub.buyingForgotten', ['volumes' => $notOwnedVolumes]);
+    }
+
+    /**
      * 指定されたシリーズの巻数表示をセットします。
      *
      * この関数は、シリーズ内のマンガの巻数を、所有しているかどうかのステータスに基づいて取得し、
@@ -529,5 +565,35 @@ class MangahubController extends Controller
         })
             // Collectionの要素を"<br />"で連結して返す
             ->implode('<br />');
+    }
+
+    /**
+     * この関数は、指定された漫画名、巻数、およびアフィリエイトIDを使用してAmazonアフィリエイトリンクを生成します。
+     * 生成されたリンクはAmazonの検索ページにリダイレクトし、指定されたキーワードで検索を実行します。
+     *
+     * @param string $mangaName 検索する漫画の名前。
+     * @param int $volumeNumber 検索する漫画の巻数。
+     * @param string $affiliateId AmazonアフィリエイトプログラムのID。
+     * @return string 生成されたアフィリエイトリンクのURL。
+     */
+    private function generateLink($mangaName, $volumeNumber, $affiliateId)
+    {
+        $searchQuery = urlencode($mangaName . " 第" . $volumeNumber . "巻");
+        $baseUrl = "https://www.amazon.co.jp/s?k=";
+        $affiliateLink = $baseUrl . $searchQuery . "&tag=" . $affiliateId;
+
+        return $affiliateLink;
+    }
+
+    /**
+     * 普通のリンクを生成する関数
+     */
+    private function generateRegularLink($mangaName, $volumeNumber)
+    {
+        $searchQuery = urlencode($mangaName . " 第" . $volumeNumber . "巻");
+        $baseUrl = "https://www.amazon.co.jp/s?k=";
+        $regularLink = $baseUrl . $searchQuery;
+
+        return $regularLink;
     }
 }
