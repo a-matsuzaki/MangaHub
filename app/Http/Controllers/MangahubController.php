@@ -30,6 +30,12 @@ class MangahubController extends Controller
         $query = MangaSeries::with('mangaVolumes');
         $missed_volumes = $request->input('missed_volumes', 0);
 
+        // 現在のユーザーIDを取得
+        $userId = Auth::id();
+
+        // 現在のユーザーIDでフィルタリングする
+        $query->where('user_id', $userId);
+
         // タイトルでの検索条件を追加
         if (isset($input['title']) && !empty($input['title'])) {
             $query->where('title', 'LIKE', '%' . $input['title'] . '%');
@@ -97,6 +103,11 @@ class MangahubController extends Controller
         // 存在しない場合は、404エラーを返す。
         $seriesDetail = MangaSeries::findOrFail($id);
 
+        // ログインユーザーのIDとマンガシリーズのユーザーIDが一致しない場合、不正なアクセスとして処理
+        if ($seriesDetail->user_id !== Auth::id()) {
+            return redirect('/')->with('status', 'お探しのページは存在しないか、アクセスできません。');
+        }
+
         // 全巻データを一旦取得
         $seriesDetail->mangaVolumes = $seriesDetail->mangaVolumes()->get();
 
@@ -126,6 +137,12 @@ class MangahubController extends Controller
         // 指定されたIDを持つマンガシリーズを取得。
         // 存在しない場合は、404エラーを返す。
         $seriesDetail = MangaSeries::findOrFail($id);
+
+        // ユーザーがシリーズのオーナーでない場合、リダイレクトしてエラーメッセージを表示
+        // ログインユーザーのIDとマンガシリーズのユーザーIDが一致しない場合、不正なアクセスとして処理
+        if ($seriesDetail->user_id !== Auth::id()) {
+            return redirect('/')->with('status', 'お探しのページは存在しないか、アクセスできません。');
+        }
 
         // 全巻データを一旦取得
         $seriesDetail->mangaVolumes = $seriesDetail->mangaVolumes()->get();
@@ -157,6 +174,12 @@ class MangahubController extends Controller
         // 存在しない場合は、404エラーを返す。
         $volumeDetail = MangaVolume::with('mangaSeries')->findOrFail($volumeId);
 
+
+        // アクセス制御
+        if ($volumeDetail->mangaSeries->user_id !== Auth::id()) {
+            return redirect('/')->with('status', 'お探しのページは存在しないか、アクセスできません。');
+        }
+
         // マンガの巻の編集ビューを返す。ビューに巻の詳細と関連するマンガシリーズのデータを渡す。
         return view('mangahub.editVolume', [
             'volumeDetail' => $volumeDetail,
@@ -178,6 +201,12 @@ class MangahubController extends Controller
 
             // リクエストからシリーズIDを取得し、該当するマンガシリーズを検索
             $seriesDetail = MangaSeries::findOrFail($request->input('id'));
+
+            // 現在のログインユーザーがシリーズの所有者でない場合、エラーメッセージを持ってリダイレクト
+            if ($seriesDetail->user_id !== Auth::id()) {
+                DB::rollback();
+                return redirect('/')->with('status', 'お探しのページは存在しないか、アクセスできません。');
+            }
 
             // リクエストから取得したデータでマンガシリーズの情報を更新
             $seriesDetail->title = $request->input('title');
@@ -284,6 +313,12 @@ class MangahubController extends Controller
 
             // リクエストから提供されたIDを使用して、該当するマンガの巻を検索
             $volume = MangaVolume::findOrFail($request->input('id'));
+
+            // 現在のログインユーザーがマンガの巻の所有者でない場合、エラーメッセージを持ってリダイレクト
+            if ($volume->user_id !== Auth::id()) {
+                DB::rollback();
+                return redirect('/')->with('status', 'お探しのページは存在しないか、アクセスできません。');
+            }
 
             // リクエストデータを使用して、マンガの巻の属性を更新
             $volume->is_owned = $request->input('is_owned');
