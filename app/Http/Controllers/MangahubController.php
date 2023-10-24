@@ -444,8 +444,12 @@ class MangahubController extends Controller
     public function remove($id)
     {
         try {
-            // 指定されたIDでマンガ巻を検索
-            $volume = MangaVolume::findOrFail($id);
+            //// 現在のユーザーIDを取得
+            $currentUserId = auth()->id();
+
+            // 指定されたIDとユーザーIDでマンガ巻を検索
+            $volume = MangaVolume::where('id', $id)->where('user_id', $currentUserId)->firstOrFail();
+
             // マンガ巻をデータベースから削除
             $volume->delete();
 
@@ -471,16 +475,19 @@ class MangahubController extends Controller
      */
     public function buyingForgotten()
     {
-        // 所有していないマンガの巻をデータベースから取得
-        $notOwnedVolumes = MangaVolume::where('is_owned', false)->with('mangaSeries')->get();
+        // ログインユーザーのIDを取得
+        $loggedInUserId = Auth::id();
+
+        // ログインしているユーザーが所持していないマンガの巻をデータベースから取得
+        $notOwnedVolumes = MangaVolume::where('user_id', $loggedInUserId)
+            ->where('is_owned', false)
+            ->with('mangaSeries')
+            ->get();
 
         $affiliateId = 'yuruoji0a-22';
 
         // 特定のユーザーIDを定義
         $specificUserId = 1;  // ここに特定のユーザーIDをセット
-
-        // ログインユーザーのIDを取得
-        $loggedInUserId = Auth::id();
 
         // 各巻に対するリンクを生成
         foreach ($notOwnedVolumes as $volume) {
@@ -510,7 +517,8 @@ class MangahubController extends Controller
     {
         // 所有ステータスに基づき、シリーズに関連するマンガ巻を取得
         // その後、巻の数字を整数として取得し、昇順でソート
-        $volumes = $currentSeries->mangaVolumes->where('is_owned', $isOwned)->pluck('volume')
+        $user_id = auth()->id();
+        $volumes = $currentSeries->mangaVolumes->where('user_id', $user_id)->where('is_owned', $isOwned)->pluck('volume')
             ->map(function ($volume) {
                 return (int)$volume;
             })->sort()->values();
