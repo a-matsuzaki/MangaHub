@@ -32,12 +32,29 @@ class SocialAuthController extends Controller
      */
     public function handleProviderCallback($provider)
     {
-        // ソーシャル認証プロバイダからユーザー情報を取得
-        $user = Socialite::driver($provider)->user();
+        // ソーシャルプロバイダからユーザー情報を取得
+        $socialUser = Socialite::driver($provider)->user();
 
-        // TODO: 取得したユーザー情報を使用して、データベースにユーザーを登録/ログインするロジックを実装
+        // メールアドレスまたはプロバイダIDに基づいてデータベース内でユーザーを検索
+        $user = User::where('email', $socialUser->getEmail())
+            ->orWhere('provider_id', $socialUser->getId())
+            ->first();
 
-        // ログイン後の適切なページへリダイレクト
+        if (!$user) {
+            // ユーザーがデータベース内に存在しない場合、新しいユーザーエントリを作成
+            $user = User::create([
+                'name' => $socialUser->getName(), // ソーシャルプロバイダから取得した名前
+                'email' => $socialUser->getEmail(), // ソーシャルプロバイダから取得したメールアドレス
+                'provider_id' => $socialUser->getId(),  // ソーシャルプロバイダから取得した一意のID
+                // パスワードはソーシャル認証では通常不要。ただし、ここではランダムな文字列をセットしている。
+                'password' => Hash::make(Str::random(16)),
+            ]);
+        }
+
+        // 検索されたまたは新しく作成されたユーザーでログイン
+        Auth::login($user);
+
+        // ログイン後のダッシュボードやホームページへリダイレクト
         return redirect('/home');
     }
 }
