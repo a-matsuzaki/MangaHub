@@ -45,9 +45,9 @@ class SocialAuthController extends Controller
             $user = User::create([
                 'name' => $socialUser->getName(), // ソーシャルプロバイダから取得した名前
                 'email' => $socialUser->getEmail(), // ソーシャルプロバイダから取得したメールアドレス
+                'provider_name' => $provider, // ソーシャルプロバイダ名
                 'provider_id' => $socialUser->getId(),  // ソーシャルプロバイダから取得した一意のID
-                // パスワードはソーシャル認証では通常不要。ただし、ここではランダムな文字列をセットしている。
-                'password' => Hash::make(Str::random(16)),
+                'password' => Hash::make(Str::random(16)), // パスワードはソーシャル認証では通常不要。ただし、ここではランダムな文字列をセット
             ]);
         }
 
