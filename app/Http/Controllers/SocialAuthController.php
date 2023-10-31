@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Socialite;
 
 /**
@@ -32,29 +36,52 @@ class SocialAuthController extends Controller
      */
     public function handleProviderCallback($provider)
     {
-        // ソーシャルプロバイダからユーザー情報を取得
-        $socialUser = Socialite::driver($provider)->user();
+        try {
+            // ソーシャルプロバイダからユーザー情報を取得
+            $socialUser = Socialite::driver($provider)->user();
 
-        // メールアドレスまたはプロバイダIDに基づいてデータベース内でユーザーを検索
-        $user = User::where('email', $socialUser->getEmail())
-            ->orWhere('provider_id', $socialUser->getId())
-            ->first();
+            // データベースの変更をトランザクション内で行う
+            $user = DB::transaction(function () use ($provider, $socialUser) {
+                // メールアドレスまたはソーシャル認証のプロバイダ名・IDでユーザーを検索
+                $user = User::where('email', $socialUser->getEmail())
+                    ->orWhere(function ($query) use ($provider, $socialUser) {
+                        $query->where('provider_name', $provider)
+                            ->where('provider_id', $socialUser->getId());
+                    })
+                    ->first();
 
-        if (!$user) {
-            // ユーザーがデータベース内に存在しない場合、新しいユーザーエントリを作成
-            $user = User::create([
-                'name' => $socialUser->getName(), // ソーシャルプロバイダから取得した名前
-                'email' => $socialUser->getEmail(), // ソーシャルプロバイダから取得したメールアドレス
-                'provider_name' => $provider, // ソーシャルプロバイダ名
-                'provider_id' => $socialUser->getId(),  // ソーシャルプロバイダから取得した一意のID
-                'password' => Hash::make(Str::random(16)), // パスワードはソーシャル認証では通常不要。ただし、ここではランダムな文字列をセット
-            ]);
+                if (!$user) {
+                    // ユーザーが存在しない場合は新規作成
+                    $user = User::create([
+                        'name' => $socialUser->getName(),
+                        'email' => $socialUser->getEmail(),
+                        'provider_name' => $provider,
+                        'provider_id' => $socialUser->getId(),
+                        'password' => Hash::make(Str::random(16)), // ソーシャル認証でのパスワードは通常不要。ここではランダムな文字列をセット
+                    ]);
+                } else {
+                    // 既存のユーザーがいる場合は情報を更新
+                    $user->update([
+                        'name' => $socialUser->getName(),
+                        'email' => $socialUser->getEmail(),
+                        'provider_name' => $provider,
+                        'provider_id' => $socialUser->getId(),
+                    ]);
+                }
+
+                return $user;
+            });
+
+            // 検索されたまたは新しく作成されたユーザーでログイン
+            Auth::login($user);
+
+            // ログイン後のダッシュボードやホームページへリダイレクト
+            return redirect('/');
+        } catch (\Exception $e) {
+            // エラーが発生した場合の処理を書く
+            // ここでは単にログを記録し、エラーメッセージと共に前のページへ戻す
+            \Log::error("Social auth error: {$e->getMessage()}");
+            return redirect()->back()->with('error', 'ソーシャル認証に問題が発生しました。');
         }
-
-        // 検索されたまたは新しく作成されたユーザーでログイン
-        Auth::login($user);
-
-        // ログイン後のダッシュボードやホームページへリダイレクト
-        return redirect('/');
     }
 }
