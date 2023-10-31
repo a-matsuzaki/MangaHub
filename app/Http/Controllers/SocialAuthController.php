@@ -55,6 +55,6 @@ class SocialAuthController extends Controller
         Auth::login($user);
 
         // ログイン後のダッシュボードやホームページへリダイレクト
-        return redirect('/home');
+        return redirect('/');
     }
 }
