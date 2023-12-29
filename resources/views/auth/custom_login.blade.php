@@ -17,7 +17,7 @@
         LINEでログインする
       </a>
       <p class="text-center text-sm mt-4">新規登録もこちらから</p>
-      <p class="text-center text-xs text-gray-600 mt-2">※複数人でアカウントを共有する場合は<br>メールアドレスでの登録をお願いします。</p>
+      <p class="text-center text-xs text-gray-600 mt-2">※複数人でアカウントを共有する場合は<br><a href="/register" class="text-sm text-blue-500 hover:text-blue-700">メールアドレスでの新規登録</a>をお願いします。</p>
     </div>
 
     <div class="my-6">
