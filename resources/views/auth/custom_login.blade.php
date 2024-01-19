@@ -8,7 +8,7 @@
       <!-- Googleログインボタン -->
       <a href="/login/google" class="w-full bg-white border border-gray-200 shadow-sm text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center mb-4 hover:shadow-md">
         <img src="images/google_btn_base.png" alt="Google" class="mr-6">
-        Googleでログインする
+        Googleで新規登録/ログインする
       </a>
     </div>
 
