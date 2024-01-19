@@ -10,14 +10,6 @@
         <img src="images/google_btn_base.png" alt="Google" class="mr-6">
         Googleでログインする
       </a>
-
-      <!-- LINEログインボタン -->
-      <a href="/login/line" class="w-full bg-white border border-gray-200 shadow-sm text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center mb-4 hover:shadow-md">
-        <img src="images/line_btn_base.png" alt="LINE" class="mr-6">
-        LINEでログインする
-      </a>
-      <p class="text-center text-sm mt-4">新規登録もこちらから</p>
-      <p class="text-center text-xs text-gray-600 mt-2">※複数人でアカウントを共有する場合は<br><a href="/register" class="text-sm text-blue-500 hover:text-blue-700">メールアドレスでの新規登録</a>をお願いします。</p>
     </div>
 
     <div class="my-6">

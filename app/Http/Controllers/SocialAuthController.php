@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Socialite;
 
 /**
@@ -16,7 +17,7 @@ use Socialite;
 class SocialAuthController extends Controller
 {
     /**
-     * 指定されたプロバイダ（Google、LINEなど）へユーザーをリダイレクトします。
+     * 指定されたプロバイダ（Googleなど）へユーザーをリダイレクトします。
      *
      * @param  string  $provider  使用するソーシャル認証プロバイダの名前。
      * @return \Illuminate\Http\RedirectResponse プロバイダの認証ページへのリダイレクトレスポンス。
