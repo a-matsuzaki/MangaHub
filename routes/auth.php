@@ -78,8 +78,13 @@ Route::middleware('auth')->group(function () {
     // パスワード確認処理をするためのPOSTリクエストのルートを定義
     Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
 
-    // パスワード変更処理をするためのPUTリクエストのルートを定義
-    Route::put('password', [PasswordController::class, 'update'])->name('password.update');
+    // パスワードを忘れた場合のページを表示するためのGETリクエストのルートを定義
+    Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
+        ->name('password.request');
+
+    // パスワードリセットリンクをメールで送信するためのPOSTリクエストのルートを定義
+    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
+        ->name('password.email');
 
     // ログアウト処理をするためのPOSTリクエストのルートを定義
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
